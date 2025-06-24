@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário de Avaliação</title>
+    <title>Formulário de Identificação</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,11 +11,11 @@
     <h1>Formulário de Avaliação</h1>
 
     <!-- Parte 1: Identificação e Escolha da Matéria -->
-    <div id="form-identificacao" class="form-section">
-        <label for="identificacao">Nome de Identificação:</label>
-        <input type="text" id="identificacao" placeholder="Digite seu nome" required><br><br>
+    <div id="form-identificacao">
+        <label for="identificacao">Qual seu nome?</label>
+        <input type="text" id="identificacao" placeholder="Digite seu nome"><br><br>
         
-        <label for="materia">Escolha a Matéria:</label>
+        <label for="materia">Escolha a matéria:</label>
         <select id="materia">
             <option value="Matematica">Matemática</option>
             <option value="Portugues">Português</option>
@@ -23,30 +23,13 @@
             <option value="Ciencias">Ciências</option>
         </select><br><br>
 
-        <button type="button" onclick="iniciarFormulario()">Iniciar Avaliação</button>
+        <button onclick="mostrarIdentificacao()">Enviar</button>
     </div>
 
-    <!-- Parte 2: Exibição de Boas-Vindas e Coleta das Respostas -->
-    <div id="respostas" class="form-section">
-        <h2>Olá, <span id="nome-usuario"></span></h2>
+    <!-- Parte 2: Exibição da Saudação -->
+    <div id="saudacao" style="display: none;">
+        <h2>Olá, <span id="nome-usuario"></span>!</h2>
         <p>Você escolheu a matéria: <span id="materia-escolhida"></span></p>
-        
-        <label for="resposta1">Resposta 1:</label>
-        <input type="text" id="resposta1" placeholder="Sua resposta..."><br><br>
-
-        <label for="resposta2">Resposta 2:</label>
-        <input type="text" id="resposta2" placeholder="Sua resposta..."><br><br>
-
-        <label for="imagem">Imagem para Identificação:</label>
-        <input type="file" id="imagem" accept="image/*" onchange="previewImagem(event)"><br><br>
-
-        <img id="img-preview" class="img-preview" src="" alt="Imagem de Identificação"><br><br>
-
-        <button type="button" onclick="salvarRespostas()">Salvar Respostas</button>
-    </div>
-
-    <div id="mensagem-sucesso" style="display:none;">
-        <p>Respostas enviadas com sucesso!</p>
     </div>
 
     <script src="script.js"></script>

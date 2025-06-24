@@ -3,15 +3,17 @@ body {
     margin: 20px;
 }
 
-.form-section {
+#form-identificacao {
     margin-bottom: 20px;
 }
 
-#respostas {
-    display: none;
+#saudacao {
+    margin-top: 20px;
+    font-size: 1.2em;
 }
 
-.img-preview {
-    margin-top: 10px;
-    max-width: 200px;
+input, select {
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
 }
