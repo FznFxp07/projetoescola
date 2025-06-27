@@ -1,16 +1,19 @@
-// Função que salva as informações e redireciona o usuário
-function salvarInformacoes() {
-    const nome = document.getElementById('identificacao').value;
-    const materia = document.getElementById('materia').value;
+function mostrarIdentificacao() {
+    // Pega os valores inseridos no formulário
+    const nome = document.getElementById("identificacao").value;
+    const materia = document.getElementById("materia").value;
 
-    if (nome && materia) {
-        // Armazena os dados no localStorage
-        localStorage.setItem('nome', nome);
-        localStorage.setItem('materia', materia);
-
-        // Redireciona para a "página 2" (saudação)
-        window.location.href = 'pagina2.html'; // A página 2 será a mesma, mas com o nome "pagina2.html"
-    } else {
-        alert('Por favor, preencha todos os campos!');
+    // Verifica se o nome foi preenchido
+    if (nome.trim() === "") {
+        alert("Por favor, digite seu nome.");
+        return;
     }
+
+    // Atualiza os elementos da saudação com os dados do usuário
+    document.getElementById("nome-usuario").textContent = nome;
+    document.getElementById("materia-escolhida").textContent = materia;
+
+    // Esconde o formulário e mostra a saudação
+    document.getElementById("form-identificacao").style.display = "none";
+    document.getElementById("saudacao").style.display = "block";
 }
