@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulário do 6º Ano</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+        }
+        input, select, button {
+            margin-top: 5px;
+            padding: 8px;
+            width: 300px;
+        }
+        ul {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Formulário - Identificação do Aluno (6º Ano)</h1>
+
+    <form id="formulario">
+        <label for="nome">Nome do aluno:</label>
+        <input type="text" id="nome" required placeholder="Digite seu nome">
+
+        <label for="materia">Escolha a matéria:</label>
+        <select id="materia" required>
+            <option value="">Selecione...</option>
+            <option value="Português">Português</option>
+            <option value="Matemática">Matemática</option>
+            <option value="História">História</option>
+            <option value="Geografia">Geografia</option>
+            <option value="Ciências">Ciências</option>
+            <option value="Inglês">Inglês</option>
+            <option value="Educação Física">Educação Física</option>
+            <option value="Artes">Artes</option>
+            <option value="Ensino Religioso">Ensino Religioso</option>
+        </select>
+
+        <br><br>
+        <button type="submit">Salvar</button>
+    </form>
+
+    <h2>Registros Salvos:</h2>
+    <ul id="lista-registros"></ul>
+
+    <script>
+        const formulario = document.getElementById("formulario");
+        const listaRegistros = document.getElementById("lista-registros");
+
+        // Função para atualizar a lista exibida
+        function atualizarLista() {
+            listaRegistros.innerHTML = ""; // Limpa a lista
+            const registros = JSON.parse(localStorage.getItem("alunos")) || [];
+
+            registros.forEach((registro, index) => {
+                const li = document.createElement("li");
+                li.textContent = `${registro.nome} - ${registro.materia}`;
+                listaRegistros.appendChild(li);
+            });
+        }
+
+        // Evento de envio do formulário
+        formulario.addEventListener("submit", function(event) {
+            event.preventDefault(); // Impede recarregar a página
+
+            const nome = document.getElementById("nome").value.trim();
+            const materia = document.getElementById("materia").value;
+
+            if (nome === "" || materia === "") {
+                alert("Preencha todos os campos.");
+                return;
+            }
+
+            const novoRegistro = { nome, materia };
+
+            // Pega os registros anteriores e adiciona o novo
+            const registros = JSON.parse(localStorage.getItem("alunos")) || [];
+            registros.push(novoRegistro);
+
+            localStorage.setItem("alunos", JSON.stringify(registros));
+
+            formulario.reset(); // Limpa o formulário
+            atualizarLista(); // Atualiza a lista de registros
+        });
+
+        // Carrega os dados salvos ao abrir a página
+        atualizarLista();
+    </script>
+
+</body>
+</html>
