@@ -43,6 +43,16 @@
     <label for="nome">Nome do aluno:</label>
     <input type="text" id="nome" required placeholder="Digite seu nome" />
 
+    <label for="turma">Turma:</label>
+    <select id="turma" required>
+      <option value="">Selecione...</option>
+      <option value="6ºA">6ºA</option>
+      <option value="6ºB">6ºB</option>
+      <option value="6ºC">6ºC</option>
+      <option value="6ºD">6ºD</option>
+      <option value="6ºE">6ºE</option>
+    </select>
+
     <label for="materia">Escolha a matéria:</label>
     <select id="materia" required>
       <option value="">Selecione...</option>
@@ -64,7 +74,7 @@
   <!-- Saudação -->
   <div id="saudacao">
     <h2>Olá, <span id="nomeSaudacao"></span>!</h2>
-    <p>Você escolheu a matéria: <strong><span id="materiaSaudacao"></span></strong>.</p>
+    <p>Você é da turma <strong><span id="turmaSaudacao"></span></strong> e escolheu a matéria: <strong><span id="materiaSaudacao"></span></strong>.</p>
   </div>
 
   <!-- Lista de Registros -->
@@ -76,49 +86,49 @@
     const listaRegistros = document.getElementById("lista-registros");
     const saudacaoDiv = document.getElementById("saudacao");
     const nomeSaudacao = document.getElementById("nomeSaudacao");
+    const turmaSaudacao = document.getElementById("turmaSaudacao");
     const materiaSaudacao = document.getElementById("materiaSaudacao");
 
-    // Atualiza a lista de registros salvos
     function atualizarLista() {
       listaRegistros.innerHTML = "";
       const registros = JSON.parse(localStorage.getItem("alunos")) || [];
 
       registros.forEach((registro) => {
         const li = document.createElement("li");
-        li.textContent = `${registro.nome} - ${registro.materia}`;
+        li.textContent = `${registro.nome} - ${registro.turma} - ${registro.materia}`;
         listaRegistros.appendChild(li);
       });
     }
 
-    // Evento de envio do formulário
     formulario.addEventListener("submit", function (event) {
       event.preventDefault();
 
       const nome = document.getElementById("nome").value.trim();
+      const turma = document.getElementById("turma").value;
       const materia = document.getElementById("materia").value;
 
-      if (nome === "" || materia === "") {
+      if (nome === "" || turma === "" || materia === "") {
         alert("Preencha todos os campos.");
         return;
       }
 
-      const novoRegistro = { nome, materia };
+      const novoRegistro = { nome, turma, materia };
       const registros = JSON.parse(localStorage.getItem("alunos")) || [];
       registros.push(novoRegistro);
       localStorage.setItem("alunos", JSON.stringify(registros));
 
-      // Mostrar saudação personalizada
+      // Saudação
       nomeSaudacao.textContent = nome;
+      turmaSaudacao.textContent = turma;
       materiaSaudacao.textContent = materia;
       saudacaoDiv.style.display = "block";
 
-      // Esconder o formulário
+      // Esconde o formulário
       formulario.style.display = "none";
 
       atualizarLista();
     });
 
-    // Executa ao carregar a página
     atualizarLista();
   </script>
 </body>
