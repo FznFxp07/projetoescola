@@ -1,72 +1,125 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Formulário do 6º Ano</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 30px;
-        }
-        label {
-            display: block;
-            margin-top: 15px;
-        }
-        input, select, button {
-            margin-top: 5px;
-            padding: 8px;
-            width: 300px;
-        }
-        ul {
-            margin-top: 20px;
-        }
-        #saudacao {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #e0f7fa;
-            border-left: 5px solid #0097a7;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Formulário do 6º Ano</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input,
+    select,
+    button {
+      margin-top: 5px;
+      padding: 8px;
+      width: 300px;
+    }
+
+    #saudacao {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #e0f7fa;
+      border-left: 5px solid #0097a7;
+      display: none;
+    }
+
+    ul {
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
+  <h1>Formulário - Identificação do Aluno (6º Ano)</h1>
 
-    <h1>Formulário - Identificação do Aluno (6º Ano)</h1>
+  <!-- Formulário -->
+  <form id="formulario">
+    <label for="nome">Nome do aluno:</label>
+    <input type="text" id="nome" required placeholder="Digite seu nome" />
 
-    <!-- Formulário -->
-    <form id="formulario">
-        <label for="nome">Nome do aluno:</label>
-        <input type="text" id="nome" required placeholder="Digite seu nome">
+    <label for="materia">Escolha a matéria:</label>
+    <select id="materia" required>
+      <option value="">Selecione...</option>
+      <option value="Português">Português</option>
+      <option value="Matemática">Matemática</option>
+      <option value="História">História</option>
+      <option value="Geografia">Geografia</option>
+      <option value="Ciências">Ciências</option>
+      <option value="Inglês">Inglês</option>
+      <option value="Educação Física">Educação Física</option>
+      <option value="Artes">Artes</option>
+      <option value="Ensino Religioso">Ensino Religioso</option>
+    </select>
 
-        <label for="materia">Escolha a matéria:</label>
-        <select id="materia" required>
-            <option value="">Selecione...</option>
-            <option value="Português">Português</option>
-            <option value="Matemática">Matemática</option>
-            <option value="História">História</option>
-            <option value="Geografia">Geografia</option>
-            <option value="Ciências">Ciências</option>
-            <option value="Inglês">Inglês</option>
-            <option value="Educação Física">Educação Física</option>
-            <option value="Artes">Artes</option>
-            <option value="Ensino Religioso">Ensino Religioso</option>
-        </select>
+    <br /><br />
+    <button type="submit">Salvar</button>
+  </form>
 
-        <br><br>
-        <button type="submit">Salvar</button>
-    </form>
+  <!-- Saudação -->
+  <div id="saudacao">
+    <h2>Olá, <span id="nomeSaudacao"></span>!</h2>
+    <p>Você escolheu a matéria: <strong><span id="materiaSaudacao"></span></strong>.</p>
+  </div>
 
-    <!-- Saudação -->
-    <div id="saudacao" style="display: none;">
-        <h2>Olá, <span id="nomeSaudacao"></span>!</h2>
-        <p>Você escolheu a matéria: <strong><span id="materiaSaudacao"></span></strong>.</p>
-    </div>
+  <!-- Lista de Registros -->
+  <h2>Registros Salvos:</h2>
+  <ul id="lista-registros"></ul>
 
-    <h2>Registros Salvos:</h2>
-    <ul id="lista-registros"></ul>
+  <script>
+    const formulario = document.getElementById("formulario");
+    const listaRegistros = document.getElementById("lista-registros");
+    const saudacaoDiv = document.getElementById("saudacao");
+    const nomeSaudacao = document.getElementById("nomeSaudacao");
+    const materiaSaudacao = document.getElementById("materiaSaudacao");
 
-    <script>
-        const formulario = document.getElementById("formulario");
-        const listaRegistros = document.getElementById("lista-registros");
-        const saudacaoDiv = document.getElementById("saudacao");
-        const nomeSaudacao = document.getElementById("nomeSaudacao");
-        const materiaSaudacao = document.getElementById
+    // Atualiza a lista de registros salvos
+    function atualizarLista() {
+      listaRegistros.innerHTML = "";
+      const registros = JSON.parse(localStorage.getItem("alunos")) || [];
+
+      registros.forEach((registro) => {
+        const li = document.createElement("li");
+        li.textContent = `${registro.nome} - ${registro.materia}`;
+        listaRegistros.appendChild(li);
+      });
+    }
+
+    // Evento de envio do formulário
+    formulario.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const nome = document.getElementById("nome").value.trim();
+      const materia = document.getElementById("materia").value;
+
+      if (nome === "" || materia === "") {
+        alert("Preencha todos os campos.");
+        return;
+      }
+
+      const novoRegistro = { nome, materia };
+      const registros = JSON.parse(localStorage.getItem("alunos")) || [];
+      registros.push(novoRegistro);
+      localStorage.setItem("alunos", JSON.stringify(registros));
+
+      // Mostrar saudação personalizada
+      nomeSaudacao.textContent = nome;
+      materiaSaudacao.textContent = materia;
+      saudacaoDiv.style.display = "block";
+
+      // Esconder o formulário
+      formulario.style.display = "none";
+
+      atualizarLista();
+    });
+
+    // Executa ao carregar a página
+    atualizarLista();
+  </script>
+</body>
+</html>
